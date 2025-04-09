@@ -6,19 +6,19 @@ import os
 import openai
 
 # Example PubMed RSS feed URL
-rss_url = 'https://pubmed.ncbi.nlm.nih.gov/rss/search/1rUyv9-0xUixl8iP0hZRiJDvvzoO2ncrWKy4nWspV6YYVdU1FG/?limit=15&utm_campaign=pubmed-2&fc=20250205104849'
+rss_url = 'https://pubmed.ncbi.nlm.nih.gov/rss/search/107QS1L1jrYjSgIGahmR_MGZN_rcRvejpBIIkR9B6F_fK0vYWj/?limit=50&utm_campaign=pubmed-2&fc=20250409034656'
 
 access_token = os.getenv('GITHUB_TOKEN')
 openaiapikey = os.getenv('OPENAI_API_KEY')
 
-client = openai.OpenAI(api_key=openaiapikey) # if you use deepseek api key, change to: client = openai.OpenAI(api_key=openaiapikey, base_url="https://api.deepseek.com")
+client = openai.OpenAI(api_key=openaiapikey, base_url="https://api.deepseek.com") # if you use deepseek api key, change to: client = openai.OpenAI(api_key=openaiapikey, base_url="https://api.deepseek.com")
 
 def extract_scores(text):
     # Use OpenAI API to get Research Score and Social Impact Score separately. Change model to deepseek-chat for deepseek-v3
     response = client.chat.completions.create(
-        model="gpt-4o-mini", 
+        model="deepseek-reasoner", 
         messages=[
-            {"role": "system", "content": "You are an mass spectrometry expert and researcher. You are skilled at selecting interesting/novelty research."},
+            {"role": "system", "content": "You are an NGS data expert and researcher. Your study is focusing on METTL3 & METTL14. You are skilled at selecting interesting/novelty research."},
             {"role": "user", "content": f"Given the text '{text}', evaluate this article with two scores:\n"
                                         "1. Research Score (0-100): Based on research innovation, methodological rigor, and data reliability.\n"
                                         "2. Social Impact Score (0-100): Based on public attention, policy relevance, and societal impact.\n"
@@ -26,7 +26,7 @@ def extract_scores(text):
                                         "Research Score: <score>\n"
                                         "Social Impact Score: <score>"}
         ],
-        max_tokens=100,
+        max_tokens=277,
         temperature=0.5
     )
 
@@ -100,7 +100,7 @@ for article_data in new_articles_data:
     issue_body += f"  **DOI**: {doi}\n\n"
 
 def create_github_issue(title, body, access_token):
-    url = f"https://api.github.com/repos/[YourGitHubUserName]/autoaiscore/issues"
+    url = f"https://api.github.com/repos/whiteSongLin/test2/issues"
     headers = {
         "Authorization": f"token {access_token}",
         "Accept": "application/vnd.github.v3+json"
