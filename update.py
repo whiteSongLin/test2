@@ -18,7 +18,7 @@ def extract_scores(text):
     response = client.chat.completions.create(
         model="deepseek-reasoner", 
         messages=[
-            {"role": "system", "content": "You are an NGS data expert and researcher. Your study is focusing on METTL3 & METTL14. You are skilled at selecting interesting/novelty research."},
+            {"role": "system", "content": "You are an bioinformatics expert and researcher. Your study is focusing on integrating different NGS data to interrogate METTL3 & METTL14. You are skilled at selecting interesting/novelty research."},
             {"role": "user", "content": f"Given the text '{text}', evaluate this article with two scores:\n"
                                         "1. Research Score (0-100): Based on research innovation, methodological rigor, and data reliability.\n"
                                         "2. Social Impact Score (0-100): Based on public attention, policy relevance, and societal impact.\n"
